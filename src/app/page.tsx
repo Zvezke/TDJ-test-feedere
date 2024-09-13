@@ -10,7 +10,6 @@ import {
   sendWeightMessage,
   sendUpdateProgressMessage,
 } from "../utils/sendMessageFunctions";
-import { useState } from "react";
 
 export default function Home() {
   const { feederData: feeder1Data, resetData: resetFeeder1 } = useWebSocket(
