@@ -6,8 +6,14 @@ import { FeederComponent } from "../components/FeederComponent";
 import { ControlPanel } from "../components/ControlPanel";
 import { useWebSocket } from "../hooks/useWebSocket";
 import {
-  sendWifiStrengthMessage,
-  sendWeightMessage,
+  sendFeedNowMessage,
+  sendFeedPlanMessage,
+  sendFeedTypeMessage,
+  sendMotorDirectionMessage,
+  sendUpdateFirmwareMessage,
+  sendCalibrationMessage,
+  sendPauseMessage,
+  sendResetMessage,
   sendUpdateProgressMessage,
 } from "../utils/sendMessageFunctions";
 
@@ -21,9 +27,15 @@ export default function Home() {
     process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:5000",
   );
 
-  const sendWifiStrength = useCallback(sendWifiStrengthMessage, []);
-  const sendWeight = useCallback(sendWeightMessage, []);
+  const sendFeedNow = useCallback(sendFeedNowMessage, []);
+  const sendFeedPlan = useCallback(sendFeedPlanMessage, []);
+  const sendFeedType = useCallback(sendFeedTypeMessage, []);
+  const sendMotorDirection = useCallback(sendMotorDirectionMessage, []);
+  const sendUpdateFirmware = useCallback(sendUpdateFirmwareMessage, []);
   const sendUpdateProgress = useCallback(sendUpdateProgressMessage, []);
+  const sendCalibration = useCallback(sendCalibrationMessage, []);
+  const sendPause = useCallback(sendPauseMessage, []);
+  const sendReset = useCallback(sendResetMessage, []);
 
   const resetFeederData = () => {
     resetFeeder1();
@@ -53,10 +65,16 @@ export default function Home() {
           <FeederComponent feederName="Feeder 1" data={feeder1Data} />
           <FeederComponent feederName="Feeder 2" data={feeder2Data} />
           <ControlPanel
-            sendWifiStrength={sendWifiStrength}
-            sendWeight={sendWeight}
-            sendUpdateProgress={sendUpdateProgress}
+            sendFeedNow={sendFeedNow}
+            sendFeedPlan={sendFeedPlan}
+            sendFeedType={sendFeedType}
+            sendMotorDirection={sendMotorDirection}
+            sendUpdateFirmware={sendUpdateFirmware}
+            sendCalibration={sendCalibration}
+            sendPause={sendPause}
+            sendReset={sendReset}
             resetFeederData={resetFeederData}
+            sendUpdateProgress={sendUpdateProgress}
           />
         </div>
       </div>

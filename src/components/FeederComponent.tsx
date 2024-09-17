@@ -21,12 +21,20 @@ export function FeederComponent({ feederName, data }: FeederComponentProps) {
           </span>
         )}
       </h2>
+      <p className="text-neutral-300">Calibration: {data.calibration ?? ""}</p>
+      <p className="text-neutral-300">Pause: {data.pause ?? ""}</p>
+      <p className="text-neutral-300">Reset: {data.reset ? "true" : ""}</p>
+      <p className="text-neutral-300">Feed now: {data.feedNow ?? ""}</p>
+      <p className="text-neutral-300">Feed plan: {data.feedPlan ?? ""}</p>
+      <p className="text-neutral-300">Feed type: {data.feedType ?? ""}</p>
       <p className="text-neutral-300">
-        WiFi styrke: {data.wifiStrength ?? "N/A"}
+        Motor direction: {data.motorDirection ?? ""}
       </p>
-      <p className="text-neutral-300">Vægt: {data.weight ?? "N/A"}</p>
       <p className="text-neutral-300">
-        Opdateringsprocent: {data.updateProgress ?? "N/A"}
+        Update firmware: {data.updateFirmware ?? ""}
+      </p>
+      <p className="text-neutral-300">
+        Update progress: {data.updateProgress ?? ""}
       </p>
     </div>
   );

@@ -5,9 +5,15 @@ import toast from "react-hot-toast";
 export function useWebSocket(feederId: string, url: string) {
   const [feederData, setFeederData] = useState<FeederData>({
     isConnected: false,
-    wifiStrength: null,
-    weight: null,
+    pause: null,
+    reset: null,
+    feedNow: null,
+    feedPlan: null,
+    feedType: null,
+    motorDirection: null,
+    updateFirmware: null,
     updateProgress: null,
+    calibration: null,
   });
   const [socket, setSocket] = useState<WebSocket | null>(null);
 
@@ -38,26 +44,64 @@ export function useWebSocket(feederId: string, url: string) {
       const data = JSON.parse(event.data);
 
       switch (data.event) {
-        case "wifi-strength":
+        case "calibration":
           setFeederData((prev) => ({
             ...prev,
-            wifiStrength: data.payload.rssi,
+            calibration: data.payload["calibration-event"],
           }));
           break;
-        case "weight":
-          setFeederData((prev) => ({ ...prev, weight: data.payload.weight }));
+        case "pause":
+          setFeederData((prev) => ({
+            ...prev,
+            pause: data.payload["pause-state"],
+          }));
+          break;
+        case "reset":
+          setFeederData((prev) => ({ ...prev, reset: true }));
+          break;
+        case "feed-now":
+          setFeederData((prev) => ({ ...prev, feedNow: data.payload.grams }));
+          break;
+        case "feed-plan":
+          setFeederData((prev) => ({
+            ...prev,
+            feedPlan: data.payload.feedplan,
+          }));
+          break;
+        case "feed-type":
+          setFeederData((prev) => ({
+            ...prev,
+            feedType: data.payload.feed_type,
+          }));
+          break;
+        case "motor-direction":
+          setFeederData((prev) => ({
+            ...prev,
+            motorDirection: data.payload.motor_direction,
+          }));
+          break;
+        case "update-firmware":
+          setFeederData((prev) => ({
+            ...prev,
+            updateFirmware: data.payload["update-event"],
+          }));
           break;
         case "update-progress":
           setFeederData((prev) => ({
             ...prev,
-            updateProgress: data.payload.progress,
+            updateProgress: data.payload.update_progress,
           }));
           break;
       }
     };
 
-    ws.onopen = () => handleConnection(true);
-    ws.onclose = () => handleConnection(false);
+    ws.onopen = () => {
+      handleConnection(true);
+    };
+    ws.onclose = () => {
+      handleConnection(false);
+    };
+
     ws.onmessage = handleMessage;
 
     return () => {
@@ -77,13 +121,20 @@ export function useWebSocket(feederId: string, url: string) {
     },
     [socket, feederId],
   );
-
   const resetData = useCallback(() => {
     setFeederData((prevData) => ({
       ...prevData,
+      calibration: null,
+      pause: null,
+      reset: false,
+      feedNow: null,
+      feedPlan: null,
+      feedType: null,
+      motorDirection: null,
+      updateFirmware: null,
+      updateProgress: null,
       wifiStrength: null,
       weight: null,
-      updateProgress: null,
     }));
   }, []);
 
