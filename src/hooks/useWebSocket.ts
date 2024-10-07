@@ -62,7 +62,7 @@ export function useWebSocket(feederId: string, url: string) {
         case "feed-now":
           setFeederData((prev) => ({ ...prev, feedNow: data.payload.grams }));
           break;
-        case "feed-plan":
+        case "feedings":
           setFeederData((prev) => ({
             ...prev,
             feedPlan: data.payload.feedplan,
