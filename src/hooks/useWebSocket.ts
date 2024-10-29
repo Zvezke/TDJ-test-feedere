@@ -78,7 +78,7 @@ export function useWebSocket(feederId: string, url: string) {
         case "motor-direction":
           setFeederData((prev) => ({
             ...prev,
-            motorDirection: data.payload.motor_direction,
+            motorDirection: data.payload.direction,
           }));
           break;
         case "update-firmware":
