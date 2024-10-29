@@ -27,6 +27,9 @@ export default function Home() {
     process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:5000",
   );
 
+  // console.log("feeder1Data", feeder1Data);
+  // console.log("feeder2Data", feeder2Data);
+
   const sendFeedNow = useCallback(sendFeedNowMessage, []);
   const sendFeedPlan = useCallback(sendFeedPlanMessage, []);
   const sendFeedType = useCallback(sendFeedTypeMessage, []);

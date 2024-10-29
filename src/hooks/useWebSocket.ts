@@ -42,6 +42,7 @@ export function useWebSocket(feederId: string, url: string) {
 
     const handleMessage = (event: MessageEvent) => {
       const data = JSON.parse(event.data);
+      console.log("data", data);
 
       switch (data.event) {
         case "calibration":
@@ -50,7 +51,7 @@ export function useWebSocket(feederId: string, url: string) {
             calibration: data.payload["calibration-event"],
           }));
           break;
-        case "pause":
+        case "pause-state":
           setFeederData((prev) => ({
             ...prev,
             pause: data.payload["pause-state"],
